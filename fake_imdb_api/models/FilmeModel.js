@@ -8,7 +8,7 @@ const FilmeModel = (sequelize, DataTypes) => {
             type: DataTypes.INTEGER,
             allowNull: false
         },
-        descricao: {
+        direcao: {
             type: DataTypes.STRING,
             allowNull: false
         },

@@ -8,7 +8,7 @@ const ItemModel = (sequelize, DataTypes) => {
             type: DataTypes.STRING,
             allowNull: false
         },
-        descricao: {
+        direcao: {
             type: DataTypes.STRING,
             allowNull: false
         },

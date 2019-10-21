@@ -1,6 +1,6 @@
 const { Item } = require('./db');
 
-const itens = [{
+const filmes = [{
     "titulo": "A Origem",
     "ano_lancamento": "2010",
     "direcao": "Christopher Nolan",

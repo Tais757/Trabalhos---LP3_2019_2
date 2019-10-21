@@ -1,5 +1,5 @@
 const { Op } = require('sequelize');
-const { Lista, Item } = require('../databases/db');
+const { Filme, Item } = require('../databases/db');
 
 const controller = {
     recuperarTodos: async (req, res) => {
@@ -8,13 +8,13 @@ const controller = {
     },
 
     salvar: (req, res) => {
-        const lista = req.body;
+        const filme = req.body;
 
-        if(!lista.nome){
+        if(!filme.nome){
             return res.status(400).json({ mensagem: 'Filme não informado'});
         }
 
-        Lista.create(lista).then(listaSalva => res.status(201).json(listaSalva),
+        Filme.create(filme).then(filmeSalva => res.status(201).json(filmeSalva),
         erro => res.status(400).json(erro)).catch(erro => {
             console.log(erro);
             return res.status(500).json({ mensagem: 'Erro ao tentar salvar a lista' });
@@ -22,8 +22,8 @@ const controller = {
     },
 
     recuperarItensPorDescricao: async (req, res) => {
-        const { consulta } = req.body;
-        let itens = await Item.findAll({
+        const { consulta, consulta1, consulta2, consulta3 } = req.body;
+        let filmes = await Item.findAll({
             where:{
                 descricao: {
                     [Op.iLike]: `% ${ consulta } %`
@@ -31,7 +31,30 @@ const controller = {
             }
         });
 
-        return res.json(itens);
+        let direcao = await Item.findAll({
+            where:{
+                descricao: {
+                    [Op.iLike]: `% ${ consulta1 } %`
+                }
+            }
+        });
+
+        let sinopse = await Item.findAll({
+            where:{
+                descricao: {
+                    [Op.iLike]: `% ${ consulta2 } %`
+                }
+            }
+        });
+        
+        let genero = await Item.findAll({
+            where:{
+                descricao: {
+                    [Op.iLike]: `% ${ consulta3 } %`
+                }
+            }
+        });
+        return res.json(filmes, direcao, sinopse, genero);
     }
 };
 
