@@ -4,15 +4,24 @@ const Item = require('../models/Item');
 const controller = {
 
     recuperarListas: async (req, res) => {
-        const listas = await Lista.find({ descricao: { $regex: '', $options: 'i' } });
+        const listas = await Lista.find(
+            /**Executa os itens de unidade e descrição com valor maior ou igual a 1
+             * e apenas seleciona os campos id, nome e descrição a serem retornados.
+             */
+            { unidade: {'$gte': 1}, descricao: {'$gte': 1} },
+            'id nome descricao', function (err, docs) { 
+                if (err){
+                    return handleError(err);
+                }
+            });
         return res.json(listas);
     },
 
     recuperarItens: async (req, res) => {
-        const { filtro } = req.body;
-        const itens = await Item.find({ 
-            descricao: { $regex: 'filtro', $options: 'i' } 
-        });
+        const { consulta } = req.body;
+        const itens = await Lista.find({ 
+            descricao: { '$regex': consulta, '$options': 'i' }}, 'id nome descricao'
+        );
         return res.json(itens);
     },
 
