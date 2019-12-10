@@ -22,7 +22,7 @@ router.put('/:id', ListaController.atualizar);
  * Rota para o serviço: /listas/:id
  * Verbo HTTP: DELETE
  */
-router.delete('/:id', ListaController.remover);
+router.delete('/', ListaController.remover);
 
 /**
  * Rota para o servidor: /listas

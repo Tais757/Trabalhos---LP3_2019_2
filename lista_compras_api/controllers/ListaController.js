@@ -67,10 +67,14 @@ const controller = {
                 .json({ mensagem: 'Erro ao tentar atualizar a lista' });
     },
 
-    remover: (req, res) => {
-        const { id } = req.params;
-
-        Lista.findByIdAndRemove(id)
+    remover: async (req, res) => {
+        const itens = await Lista.findOneAndRemove({ unidade: { '$lt': 3 },
+        function (err, removed) {
+            if (removed) {
+                listas = { unidade: {'$lte': 3}}
+            }
+            
+        } })
         .exec()
         .then(() => res.status(204).end(),
         erro => {
